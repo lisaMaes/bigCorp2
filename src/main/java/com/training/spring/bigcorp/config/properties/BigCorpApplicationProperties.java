@@ -1,4 +1,4 @@
-package com.training.spring.bigcorp.model;
+package com.training.spring.bigcorp.config.properties;
 
 import java.util.Set;
 
