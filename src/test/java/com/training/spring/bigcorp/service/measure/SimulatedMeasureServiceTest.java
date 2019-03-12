@@ -4,7 +4,6 @@ import com.training.spring.bigcorp.model.Captor;
 import com.training.spring.bigcorp.model.Measure;
 import com.training.spring.bigcorp.model.MeasureStep;
 import com.training.spring.bigcorp.model.PowerSource;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

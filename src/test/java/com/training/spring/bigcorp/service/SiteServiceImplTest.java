@@ -31,7 +31,7 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 public class SiteServiceImplTest {
 
     @Configuration
-    @ComponentScan("com.training.springcore.service")
+    @ComponentScan("com.training.spring.bigcorp.service")
     static class SiteServiceTestConfiguration{}
 
     @Autowired

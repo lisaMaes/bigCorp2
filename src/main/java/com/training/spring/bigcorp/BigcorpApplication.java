@@ -1,22 +1,31 @@
 package com.training.spring.bigcorp;
 
-import com.training.spring.bigcorp.model.ApplicationInfo;
+import com.training.spring.bigcorp.config.properties.BigCorpApplicationProperties;
 import com.training.spring.bigcorp.service.SiteService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.ApplicationContext;
+
+
 
 @SpringBootApplication
+@EnableConfigurationProperties
 public class BigcorpApplication {
+
+	private final static Logger logger = LoggerFactory.getLogger(SiteService.class);
 
 	public static void main(String[] args) {
 
-		SpringApplication.run(BigcorpApplication.class, args);
+		ApplicationContext context = SpringApplication.run(BigcorpApplication.class,args);
 
-		ApplicationInfo applicationInfo = context.getBean(ApplicationInfo.class);
-		System.out.println("========================================================================");
-		System.out.println("Application [" + applicationInfo.getName() + "] - version: " + applicationInfo.getVersion());
-		System.out.println("plus d'informations sur " + applicationInfo.getWebSiteUrl());
-		System.out.println("================================================================== ======");
+		BigCorpApplicationProperties applicationInfo = context.getBean(BigCorpApplicationProperties.class);
+		logger.info("========================================================================");
+		logger.info("Application [" + applicationInfo.getName() + "] - version: " + applicationInfo.getVersion());
+		logger.info("plus d'informations sur " + applicationInfo.getWebSiteUrl());
+		logger.info("================================================================== ======");
 		context.getBean(SiteService.class).findById("test");
 	}
 
