@@ -27,7 +27,7 @@ public class FixedMeasureService implements MeasureService{
         List<Measure> measures = new ArrayList<>();
         Instant current = start;
         while(current.isBefore(end)){
-            measures.add(new Measure(current, 10_000_000, captor));
+            measures.add(new Measure(current, defaultValue, captor));
             current = current.plusSeconds(step.getDurationInSecondes());
         }
         return measures;

@@ -11,9 +11,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Scanner;
 
 @Service
 @Lazy
@@ -52,20 +49,5 @@ public class SiteServiceImpl implements SiteService {
         return site;
     }
 
-    @Override
-    public void readFile(String path) {
 
-        Resource resource = resourceLoader.getResource(path);
-
-        try (InputStream stream = resource.getInputStream()) {
-            Scanner scanner = new Scanner(stream).useDelimiter("\\n");
-            while (scanner.hasNext()) {
-            logger.debug("Appel readFile"+scanner.next(), path);
-            }
-        }
-        catch (IOException e) {
-            logger.error("Erreur sur chargement fichier", e);
-
-        }
-    }
 }

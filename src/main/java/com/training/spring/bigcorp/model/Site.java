@@ -33,6 +33,12 @@ public class Site {
         this.name = name;
     }
 
+    public Site(String id, String name) {
+
+        this.id = id;
+        this.name = name;
+    }
+
     public String getId() {
         return id;
     }
