@@ -2,6 +2,7 @@ package com.training.spring.bigcorp.repository;
 
 import com.training.spring.bigcorp.model.Captor;
 import com.training.spring.bigcorp.model.Measure;
+import com.training.spring.bigcorp.model.RealCaptor;
 import com.training.spring.bigcorp.model.Site;
 import org.assertj.core.api.Assertions;
 
@@ -53,7 +54,7 @@ public class MeasureDaoImplTest {
     @Test
     public void create() {
 
-        Captor captor = new Captor("c1", "Eolienne", new Site("site"));;
+        Captor captor = new RealCaptor( "c1","Eolienne", new Site("Bigcorp Lyon"));;
         Assertions.assertThat(measureDao.findAll()).hasSize(10);
         measureDao.save(new Measure(Instant.now(), 2_333_666, captor));
         Assertions.assertThat(measureDao.findAll()).hasSize(11);
@@ -74,11 +75,9 @@ public class MeasureDaoImplTest {
 
     @Test
     public void deleteById() {
-        Captor captor = new Captor("c1", "Eolienne", new Site("site"));;
 
-        Measure measure = measureDao.save(new Measure(Instant.now(), 2_333_666, captor));
-        Assertions.assertThat(measureDao.findById(measure.getId())).isNotEmpty();
-        measureDao.delete(measure);
-        Assertions.assertThat(measureDao.findById(measure.getId())).isEmpty();
+        Assertions.assertThat(measureDao.findAll()).hasSize(9);
+        measureDao.delete(measureDao.findById(-1L).get());
+        Assertions.assertThat(measureDao.findAll()).hasSize(10);
     }
 }
