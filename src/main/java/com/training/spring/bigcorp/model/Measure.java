@@ -30,6 +30,9 @@ public class Measure {
     @ManyToOne(optional = false)
     private Captor captor;
 
+    @Version
+     private int version;
+
 
     public Measure() {
     }
@@ -70,6 +73,14 @@ public class Measure {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
     }
 
     @Override

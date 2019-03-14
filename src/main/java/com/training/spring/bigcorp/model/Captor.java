@@ -25,6 +25,10 @@ public abstract class Captor {
     @ManyToOne(optional=false)
     private Site site;
 
+    @Version
+    private int version;
+
+
 
     public Captor() {
     }
@@ -75,6 +79,14 @@ public abstract class Captor {
 
     public void setSite(Site site) {
         this.site = site;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
     }
 
     @Override
