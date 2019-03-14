@@ -142,4 +142,44 @@ public class CaptorDaoImplTest {
         Assertions.assertThatThrownBy(() -> captorDao.save(captor))
                 .isExactlyInstanceOf(ObjectOptimisticLockingFailureException.class);
     }
+
+    @Test
+    public void createShouldThrowExceptionWhenNameIsNull() {
+        Site site = new Site("site1", "Bigcorp Lyon");
+
+        Assertions
+                .assertThatThrownBy(() -> {
+                    captorDao.save(new RealCaptor(null, site));
+                    entityManager.flush();
+                })
+                .isExactlyInstanceOf(javax.validation.ConstraintViolationException.class)
+                .hasMessageContaining("ne peut pas être nul");
+    }
+
+    @Test
+    public void createShouldThrowExceptionWhenNameSizeIsInvalid() {
+        Site site = new Site("site1", "Bigcorp Lyon");
+
+        Assertions
+                .assertThatThrownBy(() -> {
+                    captorDao.save(new RealCaptor("ee", site));
+                    entityManager.flush();
+                })
+                .isExactlyInstanceOf(javax.validation.ConstraintViolationException.class)
+                .hasMessageContaining("la taille doit être comprise entre 3 et 300");
+    }
+
+    @Test
+    public void createSimulatedCaptorShouldThrowExceptionWhenMinMaxAreInvalid() {
+
+        Site site = new Site("site1", "Bigcorp Lyon");
+
+        Assertions
+                .assertThatThrownBy(() -> {
+                    captorDao.save(new SimulatedCaptor("Mon site", site, 10, 5));
+                    entityManager.flush();
+                })
+                .isExactlyInstanceOf(javax.validation.ConstraintViolationException.class)
+                .hasMessageContaining("minPowerInWatt should be less than maxPowerInWatt");
+    }
 }

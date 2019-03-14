@@ -1,6 +1,9 @@
 package com.training.spring.bigcorp.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 import java.time.Instant;
 import java.util.Objects;
 
@@ -16,12 +19,13 @@ public class Measure {
     /**
      * intant
      */
-    @Column(nullable = false)
+    @NotNull
+    @Past
     private Instant instant;
     /**
      * watt
      */
-    @Column(nullable = false)
+    @NotNull
     private Integer valueInWatt;
     /**
      * capteur
