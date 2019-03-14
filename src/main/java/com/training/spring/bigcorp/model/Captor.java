@@ -1,28 +1,43 @@
 package com.training.spring.bigcorp.model;
 
+import javax.persistence.*;
 import java.util.Objects;
 import java.util.UUID;
 
+@Entity
 public class Captor {
     /**
      * Captor id
      */
+    @Id
     private String id = UUID.randomUUID().toString();
 
     /**
      * Captor name
      */
+    @Column(nullable=false)
     private String name;
 
     /**
      * Captor power source
      */
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private PowerSource powerSource;
 
     /**
      * site
      */
+    @ManyToOne(optional=false)
     private Site site;
+
+    /**
+     * valeur par défaut
+     */
+    private Integer defaultPowerInWatt;
+
+    public Captor() {
+    }
 
     @Deprecated
     public Captor(String name) {
@@ -44,6 +59,14 @@ public class Captor {
         this.id = id;
         this.name = name;
         this.site = site;
+    }
+
+    public Captor(String id, String name, PowerSource powerSource, Site site, Integer defaultPowerInWatt) {
+        this.id = id;
+        this.name = name;
+        this.powerSource = powerSource;
+        this.site = site;
+        this.defaultPowerInWatt = defaultPowerInWatt;
     }
 
     public String getId() {
@@ -77,6 +100,14 @@ public class Captor {
 
     public void setSite(Site site) {
         this.site = site;
+    }
+
+    public Integer getDefaultPowerInWatt() {
+        return defaultPowerInWatt;
+    }
+
+    public void setDefaultPowerInWatt(Integer defaultPowerInWatt) {
+        this.defaultPowerInWatt = defaultPowerInWatt;
     }
 
     @Override

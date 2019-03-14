@@ -1,23 +1,31 @@
 package com.training.spring.bigcorp.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
+@Entity
 public class Site {
     /**
      * Site id
      */
+    @Id
     private String id = UUID.randomUUID().toString();
 
     /**
      * Site name
      */
+    @Column(nullable = false)
     private String name;
 
     /**
      * Site captors
      */
+    @OneToMany(mappedBy = "site")
     private Set<Captor> captors;
 
     @Deprecated
@@ -25,10 +33,12 @@ public class Site {
         // Use for serializer or deserializer
     }
 
+
     /**
      * Constructor to use with required property
      * @param name
      */
+
     public Site(String name) {
         this.name = name;
     }

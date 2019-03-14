@@ -1,34 +1,28 @@
 package com.training.spring.bigcorp.repository;
 
 import com.training.spring.bigcorp.model.Site;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
 @Transactional
 public class SiteDaoImpl  implements SiteDao{
 
-    private NamedParameterJdbcTemplate jdbcTemplate;
+    @PersistenceContext
+    private EntityManager em;
 
-    public SiteDaoImpl(NamedParameterJdbcTemplate jdbcTemplate) {
-
-        this.jdbcTemplate = jdbcTemplate;
-    }
-
+    @Autowired
+    CaptorDao captorDao;
 
     @Override
-    public void create(Site site) {
+    public void persist(Site site) {
 
-         jdbcTemplate.update("insert into SITE (id, name) values (:id, :name)",
-                new MapSqlParameterSource()
-                        .addValue("id", site.getId())
-                        .addValue("name", site.getName()));
+        em.persist(site);
 
     }
 
@@ -37,8 +31,7 @@ public class SiteDaoImpl  implements SiteDao{
 
         try{
 
-            Site site = jdbcTemplate.queryForObject("select id, name from SITE where id = :id ", new MapSqlParameterSource("id", id),
-                    this::siteMapper);
+            Site site = em.find(Site.class, id);
             return site;
 
         }catch (Exception e){
@@ -48,28 +41,16 @@ public class SiteDaoImpl  implements SiteDao{
 
     @Override
     public List<Site> findAll() {
-        return jdbcTemplate.query("select id, name from SITE",
-                this::siteMapper);
+        return em.createQuery("select s from Site s ", Site.class)
+                .getResultList();
     }
+
 
     @Override
-    public void update(Site site) {
+    public void delete(Site site) {
 
-        jdbcTemplate.update("update SITE set name = :name where id =:id", new MapSqlParameterSource()
-                    .addValue("id", site.getId())
-                    .addValue("name", site.getName()));
-    }
+        captorDao.findBySiteId(site.getId()).forEach(c-> captorDao.delete(c));
 
-    @Override
-    public void deleteById(String id) {
-
-        jdbcTemplate.update("delete from SITE where id = :id", new MapSqlParameterSource()
-                    .addValue("id", id));
-    }
-
-    private Site siteMapper(ResultSet rs, int rowNum) throws SQLException {
-        Site site = new Site(rs.getString("name"));
-        site.setId(rs.getString("id"));
-        return site;
+        em.remove(site);
     }
 }
