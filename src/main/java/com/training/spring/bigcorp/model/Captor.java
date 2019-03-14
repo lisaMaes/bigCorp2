@@ -55,6 +55,11 @@ public class Captor {
         this.site = site;
     }
 
+    public Captor(String name, Site site) {
+        this.name = name;
+        this.site = site;
+    }
+
     public Captor(String id, String name, Site site) {
         this.id = id;
         this.name = name;
