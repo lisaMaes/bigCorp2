@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 @DiscriminatorValue("REAL")
 public class RealCaptor extends Captor {
 
-    @Deprecated
+
     public RealCaptor() {
         super();
     // used only by serializer and deserializer

@@ -16,7 +16,7 @@ public class SimulatedCaptor extends Captor{
     @NotNull
     private Integer maxPowerInWatt;
 
-    @Deprecated
+
     public SimulatedCaptor() {
         super();
     }
