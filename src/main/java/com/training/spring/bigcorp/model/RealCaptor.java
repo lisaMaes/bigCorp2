@@ -14,11 +14,11 @@ public class RealCaptor extends Captor {
     }
 
     public RealCaptor(String name, Site site) {
-        super(name, site);
+        super(name, site, PowerSource.REAL);
     }
 
     public RealCaptor(String id, String name, Site site) {
-        super(id, name, site);
+        super(id, name, site, PowerSource.REAL);
     }
 
 }

@@ -9,6 +9,7 @@ import javax.validation.constraints.NotNull;
 @DiscriminatorValue("FIXED")
 public class FixedCaptor extends Captor {
 
+
     @NotNull
     private Integer DefaultPowerInWatt;
 
@@ -18,9 +19,13 @@ public class FixedCaptor extends Captor {
     // used only by serializer and deserializer
     }
 
-    public FixedCaptor(String name, Site site) {
-        super(name, site);
+    public FixedCaptor(String name, Site site, Integer defaultPowerInWatt) {
+        super(name, site, PowerSource.FIXED);
+        this.DefaultPowerInWatt = defaultPowerInWatt;
+
     }
+
+
 
     public Integer getDefaultPowerInWatt() {
         return DefaultPowerInWatt;

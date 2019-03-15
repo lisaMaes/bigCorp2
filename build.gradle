@@ -18,6 +18,12 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
 	compile('com.h2database:h2')
+	compile('org.springframework.boot:spring-boot-devtools')
+	compile('org.springframework.boot:spring-boot-starter-mustache')
 	runtimeOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
+bootRun{
+	sourceResources sourceSets.main
+}
+

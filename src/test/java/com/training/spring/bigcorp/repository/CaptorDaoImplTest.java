@@ -9,7 +9,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
@@ -26,6 +25,10 @@ import java.util.Optional;
 public class CaptorDaoImplTest {
     @Autowired
     private CaptorDao captorDao;
+    @Autowired
+    private SiteDao siteDao;
+    @Autowired
+    private MeasureDao measureDao;
     @Autowired
     private EntityManager entityManager;
 
@@ -108,7 +111,7 @@ public class CaptorDaoImplTest {
                                             .withIgnorePaths("id");
         Site site = new Site();
         site.setId("site1");
-        Captor captor = new FixedCaptor("lienn", site);
+        Captor captor = new FixedCaptor("lienn", site, 10);
 
 
         List<Captor> captors = captorDao.findAll(Example.of(captor, matcher));
@@ -181,5 +184,15 @@ public class CaptorDaoImplTest {
                 })
                 .isExactlyInstanceOf(javax.validation.ConstraintViolationException.class)
                 .hasMessageContaining("minPowerInWatt should be less than maxPowerInWatt");
+    }
+
+    @Test
+    public void deleteBySiteId() {
+        Assertions.assertThat(captorDao.findBySiteId("site1")).hasSize(5);
+        measureDao.deleteAll();
+        captorDao.deleteBySiteId("site1");
+        Site site = siteDao.getOne("site1");
+        siteDao.delete(site);
+        Assertions.assertThat(captorDao.findBySiteId("site1")).isEmpty();
     }
 }
