@@ -64,15 +64,15 @@ public class CaptorController {
                 .addObject("captors", toDtos(captorDao.findBySiteId(siteId)));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("{powerSource}/{id}")
     public ModelAndView findById(@PathVariable String siteId, @PathVariable String id){
 
         Site site = siteDao.findById(siteId).orElseThrow(IllegalArgumentException::new);
 
-        return new ModelAndView("captorSimulated")
-                    .addObject("captor",
-                            captorDao.findById(id).orElseThrow(IllegalArgumentException::new))
-                    .addObject(site);
+        Captor captor = captorDao.findById(id).orElseThrow(IllegalArgumentException::new);
+
+        return new ModelAndView("captor").addObject("captor", toDto(captor))
+                                                    .addObject(site);
     }
 
     @GetMapping("/{powerSource}/create")
@@ -106,22 +106,10 @@ public class CaptorController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public ModelAndView save (@PathVariable String siteId, CaptorDto captorDto){
+    public ModelAndView save (@PathVariable String siteId, CaptorDto captorDto) {
 
         Site site = siteDao.findById(siteId).orElseThrow(IllegalArgumentException::new);
-
         Captor captor = captorDto.toCaptor(site);
-
-   /*     if (captor.getId() == null) {
-            captorToPersist = new SimulatedCaptor(captor.getName(), site,captor.getMinPowerInWatt(), captor.getMaxPowerInWatt());
-        } else {
-            captorToPersist = (SimulatedCaptor) captorDao.findById(captor.getId())
-                    .orElseThrow(IllegalArgumentException::new);
-            captorToPersist.setName(captor.getName());
-            captorToPersist.setMaxPowerInWatt(captor.getMaxPowerInWatt());
-            captorToPersist.setMinPowerInWatt(captor.getMinPowerInWatt());
-
-        }*/
         captorDao.save(captor);
         return new ModelAndView("site").addObject("site", site);
 

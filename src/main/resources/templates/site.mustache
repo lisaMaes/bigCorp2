@@ -6,6 +6,9 @@
 <body>
 {{> partial-header}}
 <div class="container">
+    <div class="row">
+
+
       {{#site.id}}<h1>Modification site</h1>{{/site.id}}
       {{^site.id}}<h1>Création site</h1>{{/site.id}}
      
@@ -83,6 +86,7 @@
         {{/site.id}}
          
     </form>
+    </div>
 </div>
 {{#site.id}}
 <div class="modal" tabindex="-1" role="dialog" id="deleteModal">
