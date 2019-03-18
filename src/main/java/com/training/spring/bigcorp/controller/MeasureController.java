@@ -1,6 +1,7 @@
 package com.training.spring.bigcorp.controller;
 
 import com.training.spring.bigcorp.controller.dto.MeasureDto;
+import com.training.spring.bigcorp.exception.NotFoundException;
 import com.training.spring.bigcorp.model.Captor;
 import com.training.spring.bigcorp.model.MeasureStep;
 import com.training.spring.bigcorp.model.PowerSource;
@@ -35,7 +36,7 @@ public class MeasureController {
     @GetMapping("/measures/captors/{id}/last/hours/{nbHours}")
     public List<MeasureDto> findAll(@PathVariable String id, @PathVariable String nbHours){
 
-        Captor captor = captorDao.findById(id).orElseThrow(IllegalArgumentException::new);
+        Captor captor = captorDao.findById(id).orElseThrow(NotFoundException::new);
         if (captor.getPowerSource() == PowerSource.SIMULATED) {
             return simulatedMeasureService.readMeasures(((SimulatedCaptor) captor),
                     Instant.now().minus(Duration.ofHours(Long.parseLong(nbHours))).truncatedTo(ChronoUnit.MINUTES),

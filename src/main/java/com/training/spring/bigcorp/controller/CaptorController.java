@@ -1,6 +1,7 @@
 package com.training.spring.bigcorp.controller;
 
 import com.training.spring.bigcorp.controller.dto.CaptorDto;
+import com.training.spring.bigcorp.exception.NotFoundException;
 import com.training.spring.bigcorp.model.*;
 import com.training.spring.bigcorp.repository.CaptorDao;
 import com.training.spring.bigcorp.repository.MeasureDao;
@@ -67,9 +68,9 @@ public class CaptorController {
     @GetMapping("{powerSource}/{id}")
     public ModelAndView findById(@PathVariable String siteId, @PathVariable String id){
 
-        Site site = siteDao.findById(siteId).orElseThrow(IllegalArgumentException::new);
+        Site site = siteDao.findById(siteId).orElseThrow(NotFoundException::new);
 
-        Captor captor = captorDao.findById(id).orElseThrow(IllegalArgumentException::new);
+        Captor captor = captorDao.findById(id).orElseThrow(NotFoundException::new);
 
         return new ModelAndView("captor").addObject("captor", toDto(captor))
                                                     .addObject(site);
@@ -80,7 +81,7 @@ public class CaptorController {
 
         ModelAndView modelAndView = null;
 
-        Site site = siteDao.findById(siteId).orElseThrow(IllegalArgumentException::new);
+        Site site = siteDao.findById(siteId).orElseThrow(NotFoundException::new);
 
         Captor captor = CaptorDto.emptyCaptor(site, powerSource);
 
@@ -108,21 +109,21 @@ public class CaptorController {
     @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public ModelAndView save (@PathVariable String siteId, CaptorDto captorDto) {
 
-        Site site = siteDao.findById(siteId).orElseThrow(IllegalArgumentException::new);
+        Site site = siteDao.findById(siteId).orElseThrow(NotFoundException::new);
         Captor captor = captorDto.toCaptor(site);
         captorDao.save(captor);
         return new ModelAndView("site").addObject("site", site);
 
     }
 
-    @PostMapping("/{id}/delete")
+    @PostMapping("/{powerSource}/{id}/delete")
     public ModelAndView delete(@PathVariable String siteId, @PathVariable String id) {
 
-        Site site = siteDao.findById(siteId).orElseThrow(IllegalArgumentException::new);
+        Site site = siteDao.findById(siteId).orElseThrow(NotFoundException::new);
 
         measureDao.deleteByCaptorId(id);
 
-        Captor captor = captorDao.findById(id).orElseThrow(IllegalArgumentException::new);
+        Captor captor = captorDao.findById(id).orElseThrow(NotFoundException::new);
 
         captorDao.delete(captor);
 
