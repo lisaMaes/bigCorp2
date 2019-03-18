@@ -26,13 +26,13 @@ public class CaptorServiceImplTest {
     @Test
     public void findBySite() {
         // Initialisation
-        String siteId = "siteId";
+        String siteId = "site1";
 
         // Appel du SUT
         Set<Captor> captors = captorService.findBySite(siteId);
 
         // Vérification
-        Assertions.assertThat(captors).hasSize(3);
+        Assertions.assertThat(captors).hasSize(2);
         //Assertions.assertThat(captors).extracting(Captor::getName).contains("Capteur A");
     }
 }

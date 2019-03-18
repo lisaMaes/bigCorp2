@@ -124,8 +124,6 @@ public class CaptorController {
 
         Captor captor = captorDao.findById(id).orElseThrow(IllegalArgumentException::new);
 
-
-
         captorDao.delete(captor);
 
         return new ModelAndView("site").addObject("site", site);

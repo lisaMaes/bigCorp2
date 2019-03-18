@@ -19,19 +19,19 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class FixedMeasureServiceTest {
 
-  /*  @Autowired
+    @Autowired
     private FixedMeasureService service;
-    *//**
-     * Captor used in tests
-     *//*
-    private Captor captor = new Captor("test", PowerSource.FIXED, new Site("bigcorp"));
-    *//**
+    /**
+    * Captor used in tests
+     */
+    private FixedCaptor captor = new FixedCaptor("test", new Site("bigcorp"));
+    /**
      * Start instant used in tests
-     *//*
+     */
     Instant start = Instant.parse("2018-09-01T22:00:00Z");
-    *//**
+    /**
      * End instant used in tests. We define a one day period
-     *//*
+     */
     Instant end = start.plusSeconds(60 * 60 * 24);
 
 
@@ -59,6 +59,7 @@ public class FixedMeasureServiceTest {
     }
     @Test
     public void readMeasures(){
+
         List<Measure> measures = service.readMeasures(captor, start, end,
                 MeasureStep.ONE_HOUR);
 // We should have 24 values one for each hour
@@ -94,5 +95,5 @@ public class FixedMeasureServiceTest {
                         "2018-09-02T19:00:00Z",
                         "2018-09-02T20:00:00Z",
                         "2018-09-02T21:00:00Z");
-    }*/
+    }
 }

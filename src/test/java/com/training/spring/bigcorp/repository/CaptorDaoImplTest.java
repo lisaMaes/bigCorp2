@@ -188,7 +188,7 @@ public class CaptorDaoImplTest {
 
     @Test
     public void deleteBySiteId() {
-        Assertions.assertThat(captorDao.findBySiteId("site1")).hasSize(5);
+        Assertions.assertThat(captorDao.findBySiteId("site1")).hasSize(2);
         measureDao.deleteAll();
         captorDao.deleteBySiteId("site1");
         Site site = siteDao.getOne("site1");

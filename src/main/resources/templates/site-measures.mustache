@@ -34,7 +34,7 @@
             series: series
           });
       }
-      function loadChart(...captors) {
+      function loadChart(captors) {
          const promises = captors
           .map(captor =>
                  fetch(`http://localhost:8080/measures/captors/${captor.id}/last/hours/6`)
